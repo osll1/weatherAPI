@@ -2,10 +2,13 @@
 #!/bin/bash
 
 CITY=$1
-API_KEY="22a98c4e1884e9482531f07c193bf4f8"
+API_KEY=$2
 
 # Fetch weather data
 WEATHER_DATA=$(curl -s "https://api.openweathermap.org/data/2.5/weather?q=${CITY}&appid=${API_KEY}&units=metric")
+
+# Debug: print fetched weather data
+echo "Fetched Weather Data: $WEATHER_DATA"
 
 # Parse weather data
 TEMP=$(echo $WEATHER_DATA | jq '.main.temp')
@@ -13,6 +16,25 @@ DESCRIPTION=$(echo $WEATHER_DATA | jq -r '.weather[0].description')
 HUMIDITY=$(echo $WEATHER_DATA | jq '.main.humidity')
 WIND_SPEED=$(echo $WEATHER_DATA | jq '.wind.speed')
 ICON=$(echo $WEATHER_DATA | jq -r '.weather[0].icon')
+
+# Debug: print parsed data
+echo "Temperature: $TEMP"
+echo "Description: $DESCRIPTION"
+echo "Humidity: $HUMIDITY"
+echo "Wind Speed: $WIND_SPEED"
+echo "Icon: $ICON"
+
+# Validate icon code
+if [ -z "$ICON" ]; then
+    echo "Error: Unable to fetch weather icon."
+    exit 1
+fi
+
+# Construct icon URL
+ICON_URL="https://openweathermap.org/img/wn/${ICON}@2x.png"
+
+# Debug: print icon URL
+echo "Icon URL: $ICON_URL"
 
 # Generate HTML content with enhanced CSS
 HTML_CONTENT="
@@ -63,7 +85,7 @@ HTML_CONTENT="
 <body>
     <div class='container'>
         <h1>Weather Report for ${CITY}</h1>
-        <img class='weather-icon' src='https://openweathermap.org/img/wn/${ICON}@2x.png' alt='${DESCRIPTION}'>
+        <img class='weather-icon' src='${ICON_URL}' alt='${DESCRIPTION}'>
         <div class='weather'>
             <p><strong>Temperature:</strong> ${TEMP} °C</p>
             <p><strong>Description:</strong> ${DESCRIPTION}</p>
@@ -76,6 +98,10 @@ HTML_CONTENT="
 
 # Save the HTML content to a file
 echo "$HTML_CONTENT" > weather_report.html
+
+# Output HTML content for debugging
+echo "$HTML_CONTENT"
+
 
 
 
