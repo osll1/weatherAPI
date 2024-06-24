@@ -11,7 +11,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 // Clone the repository containing the weather_checker.sh script
-                git branch: 'main', url: 'https://github.com/osll1/weatherAPI.git'
+                git branch: 'master', url: 'https://github.com/osll1/weatherAPI.git'
             }
         }
         stage('Run Weather Checker Script') {
@@ -34,5 +34,3 @@ pipeline {
         }
     }
 }
-
-
