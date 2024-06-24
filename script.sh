@@ -1,4 +1,12 @@
 
+
+
+
+
+
+
+
+
 #!/bin/bash
 
 CITY=$1
@@ -7,36 +15,12 @@ API_KEY="6878a49326cb5f7a695804732be769d4"
 # Fetch weather data
 WEATHER_DATA=$(curl -s "https://api.openweathermap.org/data/2.5/weather?q=${CITY}&appid=${API_KEY}&units=metric")
 
-# Debug: print fetched weather data
-echo "Fetched Weather Data: $WEATHER_DATA"
-
 # Parse weather data
 TEMP=$(echo $WEATHER_DATA | jq '.main.temp')
 DESCRIPTION=$(echo $WEATHER_DATA | jq -r '.weather[0].description')
 HUMIDITY=$(echo $WEATHER_DATA | jq '.main.humidity')
-WIND_SPEED=$(echo $WEATHER_DATA | jq '.wind.speed')
-ICON=$(echo $WEATHER_DATA | jq -r '.weather[0].icon')
 
-# Debug: print parsed data
-echo "Temperature: $TEMP"
-echo "Description: $DESCRIPTION"
-echo "Humidity: $HUMIDITY"
-echo "Wind Speed: $WIND_SPEED"
-echo "Icon: $ICON"
-
-# Validate icon code
-if [ -z "$ICON" ]; then
-    echo "Error: Unable to fetch weather icon."
-    exit 1
-fi
-
-# Construct icon URL
-ICON_URL="https://openweathermap.org/img/wn/${ICON}@2x.png"
-
-# Debug: print icon URL
-echo "Icon URL: $ICON_URL"
-
-# Generate HTML content with enhanced CSS
+# Generate HTML content
 HTML_CONTENT="
 <!DOCTYPE html>
 <html lang='en'>
@@ -45,124 +29,39 @@ HTML_CONTENT="
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            background: white;
-            padding: 20px 40px;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
-            width: 100%;
-            text-align: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
         h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
+            text-align: center;
         }
-        .weather-icon {
-            width: 100px;
-            height: 100px;
+        .weather {
+            text-align: center;
         }
         .weather p {
-            margin: 10px 0;
-            font-size: 18px;
-        }
-        .weather p strong {
-            display: inline-block;
-            width: 120px;
+            margin: 5px 0;
         }
     </style>
     <title>Weather Report for ${CITY}</title>
 </head>
 <body>
-    <div class='container'>
-        <h1>Weather Report for ${CITY}</h1>
-        <img class='weather-icon' src='${ICON_URL}' alt='${DESCRIPTION}'>
-        <div class='weather'>
-            <p><strong>Temperature:</strong> ${TEMP} °C</p>
-            <p><strong>Description:</strong> ${DESCRIPTION}</p>
-            <p><strong>Humidity:</strong> ${HUMIDITY} %</p>
-            <p><strong>Wind Speed:</strong> ${WIND_SPEED} m/s</p>
-        </div>
+    <h1>Weather Report for ${CITY}</h1>
+    <div class='weather'>
+        <p><strong>Temperature:</strong> ${TEMP} °C</p>
+        <p><strong>Description:</strong> ${DESCRIPTION}</p>
+        <p><strong>Humidity:</strong> ${HUMIDITY} %</p>
     </div>
 </body>
 </html>"
 
 # Save the HTML content to a file
 echo "$HTML_CONTENT" > weather_report.html
-
-# Output HTML content for debugging
-echo "$HTML_CONTENT"
-
-
-
-
-
-
-
-#!/bin/bash
-
-# CITY=$1
-# API_KEY="22a98c4e1884e9482531f07c193bf4f8"
-
-# # Fetch weather data
-# WEATHER_DATA=$(curl -s "https://api.openweathermap.org/data/2.5/weather?q=${CITY}&appid=${API_KEY}&units=metric")
-
-# # Parse weather data
-# TEMP=$(echo $WEATHER_DATA | jq '.main.temp')
-# DESCRIPTION=$(echo $WEATHER_DATA | jq -r '.weather[0].description')
-# HUMIDITY=$(echo $WEATHER_DATA | jq '.main.humidity')
-
-# # Generate HTML content
-# HTML_CONTENT="
-# <!DOCTYPE html>
-# <html lang='en'>
-# <head>
-#     <meta charset='UTF-8'>
-#     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-#     <style>
-#         body {
-#             font-family: Arial, sans-serif;
-#             background-color: #f4f4f4;
-#             color: #333;
-#             max-width: 600px;
-#             margin: 50px auto;
-#             padding: 20px;
-#             border-radius: 10px;
-#             box-shadow: 0 0 10px rgba(0,0,0,0.1);
-#         }
-#         h1 {
-#             text-align: center;
-#         }
-#         .weather {
-#             text-align: center;
-#         }
-#         .weather p {
-#             margin: 5px 0;
-#         }
-#     </style>
-#     <title>Weather Report for ${CITY}</title>
-# </head>
-# <body>
-#     <h1>Weather Report for ${CITY}</h1>
-#     <div class='weather'>
-#         <p><strong>Temperature:</strong> ${TEMP} °C</p>
-#         <p><strong>Description:</strong> ${DESCRIPTION}</p>
-#         <p><strong>Humidity:</strong> ${HUMIDITY} %</p>
-#     </div>
-# </body>
-# </html>"
-
-# # Save the HTML content to a file
-# echo "$HTML_CONTENT" > weather_report.html
 
 
 
