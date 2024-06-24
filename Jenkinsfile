@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
                     sh 'chmod +x weather_checker.sh'
-                    sh './weather_checker.sh "${CITY}"'
+                    sh './script.sh "${CITY}"'
                 }
             }
         }
