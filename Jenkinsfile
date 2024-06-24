@@ -17,7 +17,7 @@ pipeline {
         stage('Run Weather Checker Script') {
             steps {
                 script {
-                    sh 'chmod +x weather_checker.sh'
+                    sh 'chmod +x script.sh'
                     sh './script.sh "${CITY}"'
                 }
             }
