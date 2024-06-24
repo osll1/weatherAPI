@@ -1,4 +1,5 @@
 
+
 #!/bin/bash
 
 API_KEY="22a98c4e1884e9482531f07c193bf4f8"
@@ -23,12 +24,51 @@ fetch_weather() {
     local humidity=$(echo "$response" | jq -r '.main.humidity')
     local wind_speed=$(echo "$response" | jq -r '.wind.speed')
 
-    local output="<html><body><h1>Weather in ${city_name}, ${country}</h1>"
-    output+="<p><b>Temperature:</b> ${temp}°C (Feels like ${feels_like}°C)</p>"
-    output+="<p><b>Weather:</b> ${weather}</p>"
-    output+="<p><b>Humidity:</b> ${humidity}%</p>"
-    output+="<p><b>Wind Speed:</b> ${wind_speed} m/s</p>"
-    output+="</body></html>"
+    local output="<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .weather-info {
+            margin-top: 20px;
+        }
+        .weather-info p {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+        .weather-info b {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <h1>Weather in ${city_name}, ${country}</h1>
+        <div class='weather-info'>
+            <p><b>Temperature:</b> ${temp}°C (Feels like ${feels_like}°C)</p>
+            <p><b>Weather:</b> ${weather}</p>
+            <p><b>Humidity:</b> ${humidity}%</p>
+            <p><b>Wind Speed:</b> ${wind_speed} m/s</p>
+        </div>
+    </div>
+</body>
+</html>"
 
     echo "$output" > weather_report.html
 
@@ -47,3 +87,6 @@ else
 fi
 
 fetch_weather "$city"
+
+
+
