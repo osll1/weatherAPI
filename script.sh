@@ -2,7 +2,7 @@
 #!/bin/bash
 
 CITY=$1
-API_KEY="22a98c4e1884e9482531f07c193bf4f8"
+API_KEY="6878a49326cb5f7a695804732be769d4"
 
 # Fetch weather data
 WEATHER_DATA=$(curl -s "https://api.openweathermap.org/data/2.5/weather?q=${CITY}&appid=${API_KEY}&units=metric")
