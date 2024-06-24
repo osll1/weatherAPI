@@ -63,7 +63,7 @@ HTML_CONTENT="
 <body>
     <div class='container'>
         <h1>Weather Report for ${CITY}</h1>
-        <img class='weather-icon' src='http://openweathermap.org/img/wn/${ICON}@2x.png' alt='${DESCRIPTION}'>
+        <img class='weather-icon' src='https://openweathermap.org/img/wn/${ICON}@2x.png' alt='${DESCRIPTION}'>
         <div class='weather'>
             <p><strong>Temperature:</strong> ${TEMP} °C</p>
             <p><strong>Description:</strong> ${DESCRIPTION}</p>
@@ -76,6 +76,7 @@ HTML_CONTENT="
 
 # Save the HTML content to a file
 echo "$HTML_CONTENT" > weather_report.html
+
 
 
 
